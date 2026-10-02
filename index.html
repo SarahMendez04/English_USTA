@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Disconnect to Connect</title>
+  <style>
+    :root{
+      --cream:#fffaf2;
+      --paper:#ffffff;
+      --dark:#263238;
+      --muted:#647277;
+      --sage:#789b83;
+      --sage-dark:#50745d;
+      --peach:#f2b39b;
+      --yellow:#f6d77a;
+      --line:#e9e2d8;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{
+      font-family: "Trebuchet MS", Arial, sans-serif;
+      background:var(--cream);
+      color:var(--dark);
+      line-height:1.65;
+    }
+    a{text-decoration:none;color:inherit}
+    .container{width:min(1100px,92%);margin:auto}
+
+    header{
+      position:sticky;top:0;z-index:10;
+      background:rgba(255,250,242,.94);
+      backdrop-filter:blur(10px);
+      border-bottom:1px solid var(--line);
+    }
+    nav{
+      min-height:72px;display:flex;align-items:center;
+      justify-content:space-between;gap:20px;
+    }
+    .logo{
+      font-weight:900;letter-spacing:.5px;font-size:1.1rem;
+    }
+    .logo span{color:var(--sage-dark)}
+    nav ul{display:flex;gap:24px;list-style:none;font-size:.93rem}
+    nav li a:hover{color:var(--sage-dark)}
+
+    .hero{
+      min-height:680px;
+      display:grid;grid-template-columns:1fr 1fr;
+      align-items:center;gap:55px;padding:75px 0;
+    }
+    .eyebrow{
+      display:inline-block;background:#e6efe8;color:var(--sage-dark);
+      padding:7px 13px;border-radius:999px;font-weight:bold;font-size:.82rem;
+      margin-bottom:20px;
+    }
+    h1{
+      font-size:clamp(3.1rem,7vw,6.3rem);
+      line-height:.93;letter-spacing:-4px;margin-bottom:25px;
+    }
+    h1 span{color:var(--sage-dark)}
+    .hero p{font-size:1.12rem;color:var(--muted);max-width:570px}
+    .hero-buttons{display:flex;gap:13px;flex-wrap:wrap;margin-top:30px}
+    .btn{
+      display:inline-block;padding:13px 22px;border-radius:14px;
+      font-weight:bold;border:2px solid var(--dark);transition:.2s;
+    }
+    .btn.primary{background:var(--dark);color:white}
+    .btn.primary:hover{background:var(--sage-dark);border-color:var(--sage-dark)}
+    .btn.secondary{background:white}
+    .btn.secondary:hover{transform:translateY(-2px)}
+
+    .hero-card{
+      position:relative;border-radius:35px;overflow:hidden;
+      min-height:480px;background:#dfe9df;
+      box-shadow:0 20px 55px rgba(48,57,50,.12);
+    }
+    .hero-card img{width:100%;height:100%;min-height:480px;object-fit:cover;display:block}
+    .photo-note{
+      position:absolute;left:20px;bottom:20px;background:rgba(255,255,255,.93);
+      padding:14px 17px;border-radius:18px;font-size:.85rem;
+      max-width:250px;
+    }
+
+    section{padding:90px 0}
+    .section-label{
+      color:var(--sage-dark);font-size:.8rem;font-weight:900;
+      letter-spacing:1.8px;text-transform:uppercase;margin-bottom:9px;
+    }
+    h2{font-size:clamp(2rem,4vw,3.4rem);line-height:1.05;margin-bottom:20px}
+    .intro{max-width:730px;color:var(--muted);font-size:1.05rem}
+    .problem{background:#f1eee7}
+    .problem-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:45px;align-items:center}
+    .quote-card{
+      background:var(--paper);padding:35px;border-radius:28px;
+      border:1px solid var(--line);position:relative;
+    }
+    .quote-card:before{
+      content:"“";font-size:6rem;color:var(--peach);position:absolute;
+      top:-25px;left:18px;font-family:Georgia,serif;
+    }
+    .quote-card p{padding-top:35px;font-size:1.25rem;font-weight:bold}
+
+    .cards{
+      display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:40px
+    }
+    .card{
+      background:white;border:1px solid var(--line);border-radius:25px;
+      padding:29px;transition:.2s;
+    }
+    .card:hover{transform:translateY(-5px);box-shadow:0 12px 30px rgba(40,50,45,.08)}
+    .icon{
+      width:48px;height:48px;border-radius:15px;display:grid;place-items:center;
+      background:#edf4ee;font-size:1.45rem;margin-bottom:18px
+    }
+    .card h3{font-size:1.2rem;margin-bottom:9px}
+    .card p{color:var(--muted);font-size:.95rem}
+
+    .action{background:#e6efe8}
+    .action-list{margin-top:35px;display:grid;gap:16px}
+    .action-item{
+      background:white;border-radius:22px;padding:23px 25px;
+      display:grid;grid-template-columns:auto 1fr;gap:18px;
+      border:1px solid rgba(80,116,93,.12)
+    }
+    .number{
+      width:39px;height:39px;border-radius:50%;background:var(--sage-dark);
+      color:white;display:grid;place-items:center;font-weight:bold
+    }
+    .action-item h3{margin-bottom:5px}
+    .action-item p{color:var(--muted)}
+
+    .involve{text-align:center}
+    .involve .intro{margin:auto}
+    .cta-box{
+      margin-top:35px;background:var(--dark);color:white;border-radius:30px;
+      padding:48px 30px;
+    }
+    .cta-box p{max-width:650px;margin:0 auto 25px;color:#e3e8e6}
+    .cta-box .btn{background:var(--yellow);border-color:var(--yellow);color:var(--dark)}
+
+    .impact{background:#fff}
+    .impact-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:50px}
+    .motivation{
+      background:#fff5dc;border-radius:28px;padding:32px;height:max-content;
+    }
+    .impact-list{display:grid;gap:18px}
+    .impact-item{display:flex;gap:15px}
+    .check{
+      flex:0 0 31px;height:31px;border-radius:50%;background:#dceadd;
+      color:var(--sage-dark);display:grid;place-items:center;font-weight:bold
+    }
+    .impact-item h3{margin-bottom:3px}
+    .impact-item p{color:var(--muted);font-size:.94rem}
+
+    .team{background:#f1eee7;text-align:center}
+    .team-grid{
+      margin-top:35px;display:grid;grid-template-columns:repeat(3,1fr);gap:20px
+    }
+    .person{
+      background:white;border-radius:25px;padding:30px;border:1px solid var(--line)
+    }
+    .avatar{
+      width:75px;height:75px;border-radius:50%;margin:0 auto 17px;
+      display:grid;place-items:center;background:#e6efe8;color:var(--sage-dark);
+      font-weight:900;font-size:1.35rem
+    }
+    .person p{color:var(--muted);font-size:.9rem;margin-top:4px}
+
+    footer{
+      background:var(--dark);color:white;text-align:center;padding:35px 20px
+    }
+    footer p{color:#cbd3d0;font-size:.88rem}
+    .heart{color:var(--peach)}
+
+    @media(max-width:800px){
+      nav ul{display:none}
+      .hero,.problem-grid,.impact-grid{grid-template-columns:1fr}
+      .hero{padding-top:50px}
+      .hero-card{min-height:350px}
+      .hero-card img{min-height:350px}
+      .cards,.team-grid{grid-template-columns:1fr}
+      section{padding:65px 0}
+      h1{letter-spacing:-2px}
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <nav>
+      <a href="#home" class="logo">Disconnect <span>to</span> Connect</a>
+      <ul>
+        <li><a href="#problem">The Problem</a></li>
+        <li><a href="#action">Action Plan</a></li>
+        <li><a href="#impact">Impact</a></li>
+        <li><a href="#team">Team</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero container" id="home">
+    <div>
+      <span class="eyebrow">A small change can make a big difference</span>
+      <h1>Disconnect<br>to <span>Connect.</span></h1>
+      <p>
+        Our mission is to promote a healthy use of social media and improve
+        personal relationships through face-to-face activities, communication,
+        and time without phones.
+      </p>
+      <div class="hero-buttons">
+        <a class="btn primary" href="#action">See Our Plan</a>
+        <a class="btn secondary" href="#team">Meet the Team</a>
+      </div>
+    </div>
+
+    <div class="hero-card">
+      <img
+        src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1000&q=85"
+        alt="Friends spending time together and talking"
+      >
+      <div class="photo-note">Put the phone down. Look up. Be present. 🌿</div>
+    </div>
+  </section>
+
+  <section class="problem" id="problem">
+    <div class="container problem-grid">
+      <div>
+        <div class="section-label">01 · The Problem</div>
+        <h2>The Problem We Are Addressing</h2>
+        <p class="intro">
+          Social media is part of our daily life. People use it to communicate,
+          study, have fun, and share information. However, excessive use of
+          social media can affect personal relationships. People may spend less
+          time with their family and friends and have less face-to-face
+          communication.
+        </p>
+      </div>
+      <div class="quote-card">
+        <p>Sometimes, the people next to us deserve more attention than the screen in our hands.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="action">
+    <div class="container">
+      <div class="section-label">02 · How to Help</div>
+      <h2>How We Are Helping</h2>
+      <p class="intro">
+        Our action plan is simple: create moments where people can put their
+        phones away, have fun together, and reconnect in real life.
+      </p>
+
+      <div class="action-list">
+        <div class="action-item">
+          <div class="number">1</div>
+          <div>
+            <h3>“Phone-Free Hours” Campaign</h3>
+            <p>We promote specific times of the day, such as meals or family time, when everyone commits to putting their phones away.</p>
+          </div>
+        </div>
+        <div class="action-item">
+          <div class="number">2</div>
+          <div>
+            <h3>Organize Face-to-Face Activities</h3>
+            <p>We host regular events like board game nights, outdoor walks, or community dinners where the main goal is to interact in person.</p>
+          </div>
+        </div>
+        <div class="action-item">
+          <div class="number">3</div>
+          <div>
+            <h3>Educational Workshops</h3>
+            <p>We give short talks and share informative materials about the effects of excessive social media use and the benefits of real-life connections.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="involve" id="involve">
+    <div class="container">
+      <div class="section-label">03 · Get Involved</div>
+      <h2>Get Involved!</h2>
+      <p class="intro">
+        We will invite friends, family, and classmates to join our activities.
+        We will also use social media itself to create a group where we post
+        about upcoming offline events and share success stories from people who
+        have improved their relationships by disconnecting.
+      </p>
+
+      <div class="cta-box">
+        <h2>Ready to reconnect?</h2>
+        <p>Join us and help create more moments of real conversation, laughter, and connection.</p>
+        <a href="#team" class="btn">Join Us</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="impact" id="impact">
+    <div class="container impact-grid">
+      <div>
+        <div class="section-label">04 · Motivation</div>
+        <h2>Our Motivation and Expected Impact</h2>
+        <div class="motivation">
+          <strong>Why does this matter?</strong>
+          <p style="margin-top:10px;color:#647277;">
+            We want to offer a sense of community and fun. People are more
+            motivated to join when they see that they are not alone in feeling
+            overwhelmed by social media and that our activities are a fun way
+            to relax and reconnect with others.
+          </p>
+        </div>
+      </div>
+
+      <div>
+        <div class="section-label">Through these actions, we aim to:</div>
+        <div class="impact-list">
+          <div class="impact-item">
+            <div class="check">✓</div>
+            <div>
+              <h3>Strengthen Personal Relationships</h3>
+              <p>Encourage more quality time and meaningful conversations among family and friends.</p>
+            </div>
+          </div>
+          <div class="impact-item">
+            <div class="check">✓</div>
+            <div>
+              <h3>Raise Awareness</h3>
+              <p>Educate the community about the negative effects of excessive social media use on mental health and relationships.</p>
+            </div>
+          </div>
+          <div class="impact-item">
+            <div class="check">✓</div>
+            <div>
+              <h3>Create Healthy Habits</h3>
+              <p>Inspire long-term change in how people use their phones, promoting a healthier balance between the digital world and real life.</p>
+            </div>
+          </div>
+          <div class="impact-item">
+            <div class="check">✓</div>
+            <div>
+              <h3>Build a Supportive Community</h3>
+              <p>Create a group of people who support each other in their goal to disconnect and connect more with those around them.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="team" id="team">
+    <div class="container">
+      <div class="section-label">05 · Members</div>
+      <h2>Meet the Team</h2>
+      <p class="intro" style="margin:auto;">Three students with one simple idea: spend less time looking at screens and more time looking at each other.</p>
+
+      <div class="team-grid">
+        <div class="person">
+          <div class="avatar">SM</div>
+          <h3>Sarah Mendez</h3>
+          <p>Team member</p>
+        </div>
+        <div class="person">
+          <div class="avatar">SS</div>
+          <h3>Sharyth Suarez</h3>
+          <p>Team member</p>
+        </div>
+        <div class="person">
+          <div class="avatar">VL</div>
+          <h3>Valentina León</h3>
+          <p>Team member</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p>Disconnect to Connect · <span class="heart">♥</span> Real people. Real conversations. Real moments.</p>
+</footer>
+
+</body>
+</html>
